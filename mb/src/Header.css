@@ -1,0 +1,153 @@
+.header {
+    display: grid;
+    grid-template-areas:
+        "header-logo header-title"
+        "header-nav header-nav"
+    ;
+    grid-template-columns: auto 1fr;
+
+    background-color: black;
+
+    padding: 0;
+    border: 0;
+    margin: 0;
+    width: 100%;
+}
+
+.header-logo {
+    grid-area: header-logo;
+
+    height: 100px;
+    width: 100px;
+
+    vertical-align: bottom;
+    cursor: pointer;
+}
+
+.header-title {
+    grid-area: header-title;
+
+    color: white;
+
+    text-align: center;
+}
+
+.global-nav {
+    grid-area: header-nav;
+
+    position: relative;
+}
+
+.global-nav-list {
+    display: none;
+    flex-direction: row;
+
+    justify-content: space-around;
+
+    padding: 0;
+    margin: 0;
+}
+
+.global-nav-list--open {
+    display: flex;
+}
+
+.global-nav-link {
+    display: inline-block;
+    color: rgb(207, 203, 203);
+
+    padding: 8px;
+    text-decoration: none;
+}
+
+.global-nav-link:hover {
+    color: white;
+    text-decoration: underline;
+}
+
+
+#global-nav-button {
+    background-color: black;
+    color: white;
+
+    width: auto;
+
+    padding: 8px;
+    border: none;
+    margin: 4px;
+
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.global-nav-item {
+    position: relative;
+}
+
+.global-nav-button {
+    background-color: black;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    padding: 0;
+    border: none;
+
+    height: 30px;
+    width: 30px;
+
+    cursor: pointer;
+}
+
+.global-nav-button span {
+    display: block;
+    background-color: white;
+
+    width: 25px;
+    height: 2px;
+    margin: 3px;
+}
+
+.sub-menu {
+    position: absolute;
+
+    background-color: black;
+
+    padding: 0.5rem;
+    margin: 0;
+
+    min-width: 200px;
+    list-style: none;
+    display: none;
+}
+
+.sub-menu li a {
+    color: white;
+
+    padding: 0.5rem;
+    margin: 0;
+
+    display: block;
+}
+
+.global-nav-item:hover .sub-menu {
+    display: block;
+}
+
+.sub-menu li a:hover {
+    background-color: white;
+    color: black;
+}
+
+
+@media(min-width:44rem) {
+    .global-nav-list {
+        display: flex;
+    }
+
+    .global-nav-button {
+        display: none;
+    }
+
+}

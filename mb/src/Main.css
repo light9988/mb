@@ -1,0 +1,37 @@
+.main {
+  background-color: white;
+
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  align-self: start;
+
+  width: 100%;
+}
+
+.main-title {
+  grid-column: span 12;
+
+  justify-self: center;
+
+  padding: 1rem;
+  margin: 0.5rem;
+}
+
+.theme-button {
+  grid-column: span 12;
+
+  justify-self: right;
+
+  background-color: black;
+  color: white;
+
+  padding: 8px 16px;
+  border: none;
+  border-radius: 5px;
+  margin: 1rem;
+
+  width: auto;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}

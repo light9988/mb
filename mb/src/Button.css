@@ -1,0 +1,30 @@
+.button {
+    background-color: black;
+    color: white;
+
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 10px;
+    margin: 0.5rem;
+
+    width: auto;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.button--link {
+    background-color: white;
+    color: blue;
+    border: none;
+
+    padding: 8px 16px;
+    border: none;
+    margin: 1rem;
+
+    width: auto;
+    font-size: 1rem;
+    font-weight: bold;
+    text-decoration: underline;
+    cursor: pointer;
+}

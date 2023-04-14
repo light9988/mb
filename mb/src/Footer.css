@@ -1,0 +1,38 @@
+.footer {
+  background-color: black;
+
+  width: 100%;
+}
+
+.footer-menu-list {
+  display: flex;
+  flex-direction: column;
+
+  justify-content: space-around;
+
+  padding: 0;
+  margin: 0;
+
+  list-style: none;
+}
+
+.footer-menu-link {
+  display: inline-block;
+  color: rgb(207, 203, 203);
+
+  padding: 8px;
+  text-decoration: none;
+}
+
+.footer-menu-link:hover {
+  color: white;
+  text-decoration: underline;
+}
+
+@media(min-width:44rem) {
+  .footer-menu-list {
+    display: flex;
+    flex-direction: row;
+  }
+
+}

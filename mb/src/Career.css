@@ -1,0 +1,54 @@
+.panel-card-img {
+    grid-column: span 12;
+}
+
+#career-title,
+#section-title {
+    padding: 1.5rem;
+    margin: 0.5rem;
+
+    justify-self: left;
+}
+
+#card-job {
+    grid-column: span 12;
+
+    padding: 1rem;
+    margin: 0.5rem;
+
+    align-items: start;
+
+    text-align: justify;
+}
+
+#card-job h4 {
+    padding: 0.5rem;
+    margin: 0.5rem;
+    margin-left: 0;
+}
+
+#card-job ul li {
+    padding: 0.5rem;
+    margin: 0;
+}
+
+#card-job p {
+    padding: 0.5rem;
+    margin: 0;
+}
+
+#card-job button {
+    width: auto;
+    align-self: center;
+}
+
+.content {
+    grid-column: span 12;
+}
+
+.video{
+    display: block;
+   justify-self: center;
+    padding: 1.5rem;
+    margin: 0.5rem;
+  }

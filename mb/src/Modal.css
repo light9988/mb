@@ -1,0 +1,91 @@
+.form {
+    display: flex;
+    flex-direction: column;
+
+    gap: 1rem;
+    padding: 1rem;
+    margin: 1rem;
+}
+
+.required-field {
+    font-size: small;
+    color: red;
+}
+
+.register-name,
+.register-email,
+.register-confirm,
+.register-checkbox,
+.register-select {
+    display: grid;
+    font-weight: bold;
+}
+
+label, input, select{
+    height:2rem;
+}
+
+.register-name__error,
+.register-email__error,
+.register-confirm__error {
+    color: red;
+    font-size: small;
+}
+
+.button-group {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    cursor: pointer;
+}
+
+.submit-message{
+    color: blue;
+    text-align: center;
+
+    padding: 0.5rem;
+}
+
+.button-link:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+@media(min-width:44rem) {
+    .modal {
+        width: 70%;
+    }
+
+    .register-name,
+    .register-email,
+    .register-confirm,
+    .register-checkbox,
+    .register-select {
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+    }
+
+    label {
+        grid-column: 1/5;
+    }
+
+    .register-name__error,
+    .register-email__error,
+    .register-confirm__error {
+        grid-column: 6/12;
+    }
+
+    input,
+    select {
+        grid-column: 6/12;
+    }
+
+    .register-checkbox label{
+        grid-column: 1/7;
+    }
+
+    .register-checkbox__input{
+        grid-column: 11/12;
+    }
+
+}

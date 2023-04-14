@@ -1,0 +1,27 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html,body {
+  margin: 0;
+
+  font-family: sans-serif;
+
+  height: 100%;
+  width: 100%;
+}
+
+#root{
+  height: 100%;
+}
+
+.skip-to-content { 
+  position: absolute;
+  left: -100%;
+
+  color: white;
+}
+
+.skip-to-content:focus-within{
+  left:50%;
+}
