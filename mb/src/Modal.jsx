@@ -89,7 +89,19 @@ function Modal({ dialogRef }) {
         }
     };
 
-    const handleClose = () => {
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const isNameValid = validateNameInput();
+        const isEmailValid = validateEmailInput();
+        const isConfirmEmailValid = validateConfirmEmailInput();
+        if (isNameValid && isEmailValid && isConfirmEmailValid) {
+            console.log("Form submitted:", { name: name, email: email, confirmEmail: confirmEmail });
+            setSubmitMessage(`Hi ${name}, You have submitted the data successfully!`);
+            setIsSubmitDisabled(true);
+        }
+    };
+    
+        const handleClose = () => {
         dialogRef.current.close();
         setName('');
         setEmail('');
@@ -99,20 +111,6 @@ function Modal({ dialogRef }) {
         setNameError('');
         setEmailError('');
         setConfirmEmailError('');
-    };
-
-
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        const isNameValid = validateNameInput();
-        const isEmailValid = validateEmailInput();
-        const isConfirmEmailValid = validateConfirmEmailInput();
-        if (isNameValid && isEmailValid && isConfirmEmailValid) {
-            console.log("Form submitted:", { name, email, confirmEmail });
-            setSubmitMessage('You have submitted your data successfully!');
-            setIsSubmitDisabled(true);
-        }
     };
 
     return (
