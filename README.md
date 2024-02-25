@@ -1,4 +1,4 @@
-![homepage](image/mb.avif)
+![homepage](mb/image/mb.avif)
 # UX_Demo-MB: Mercedes-Benz Company Website Simulation
 
 ## Overview
