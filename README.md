@@ -5,7 +5,7 @@
 
 <p align="center">
   <a href="https://venmo.com/u/lightandlight">
-    <img src="https://img.shields.io/badge/Coffee❤️-ff69b4.svg" alt="Donate" width="200" height="60">
+    <img src="https://img.shields.io/badge/Coffee❤️-ff69b4.svg" alt="Donate" width="150" height="50">
   </a>
 </p>
 
