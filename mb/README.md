@@ -1,4 +1,4 @@
-![homepage](mb/frontend/image/mb1.avif)
+![homepage](mb/image/mb1.avif)
 # Mercedes-Benz Company Website Simulation
 
 ## If this is helpful to you, plase kindly support me here: 
@@ -25,76 +25,36 @@ This is a project that simulates the official website of Mercedes-Benz, showcasi
 - HTML
 - CSS
 - React
-- Node.JS 
-- Express.JS 
-- Pulumi
-- Python
 
 ## Installation
 1. Clone the repository:
    ```
-   git clone https://github.com/light9988/MB.git
+   git clone https://github.com/light9988/UX-Demo-MB.git
    ```
 2. Navigate to the project directory:
    ```
    cd ~
    ```
-
-### Front-End
-1. Navigate to the Front-End directory
-
-2. Install dependencies:
+3. Install dependencies:
    ```
    npm install
    ```
-3. Run the development server:
+
+## Usage
+1. Run the development server:
    ```
    npm start
    ```
-4. Your browser will be open to view the website.
+2. Your browser will be open to view the website.
 
-### AWS 
-1. Create AWS account
-
-2. Configure AWS credentials locally and on GitHub
-
-3. Set up DNS
-
-4. Set up SSL certificate
-
-5. Configure plumi locally
-
-6. Configure AWS with pulumi
-
-7. Navigate to the AWS directory
-
-8. Set the variable values in yaml file
-
-9. Select pulumi stack, Run "pulumi up" to build AWS resources first
-
-### Back-End 
-1. Navigate to the Back-End directory
-
-2. Install dependencies:
-   ```
-   npm install
-   ```
-3. Run the development server:
-   ```
-   npm start
-   ```
-4. Open the website
-
-5. Open AWS console to see the running status
-
-6. Destroy AWS resources: run "pulumi destroy"
-
+## Contributing
+Contributions are welcome! Please follow the [contribution guidelines](CONTRIBUTING.md).
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## Acknowledgements
-Special thanks to Mercedes-Benz for inspiration and providing the design elements used in the webpage simulation.
+Special thanks to Mercedes-Benz for inspiration and providing the design elements used in this simulation.
 
 ## Contact
 For inquiries or support, please contact me.
