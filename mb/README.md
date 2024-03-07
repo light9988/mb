@@ -1,4 +1,4 @@
-![homepage](mb/image/mb1.avif)
+![homepage](image/mb1.avif)
 # Mercedes-Benz Company Website
 
 ## If this is helpful to you, plase kindly support me here: 
