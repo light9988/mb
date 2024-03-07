@@ -1,0 +1,26 @@
+encryptionsalt: v1:F7fi5zxFh7k=:v1:xIWoXGoYW9MUT6kV:/A1oGTXQzCwhQbufxiXh2Br2oQA1hA==
+config:
+  aws:profile: demo
+  aws:region: us-west-2
+  gcp:project: mb-demo-405723
+  iac-pulumi-aws:cloudWatchAgentServerPolicy_arn: arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy
+  iac-pulumi-aws:customAmiId: ami-03676d01576e8d29a
+  iac-pulumi-aws:github_url: https://github.com/tparikh/myrepo/archive/refs/tags/v1.0.0.zip
+  iac-pulumi-aws:googleBucketName: mb-bucket
+  iac-pulumi-aws:googleProject: mb-demo-405723
+  iac-pulumi-aws:hosted_zone_id: Z043383711GP074JFLOSQ
+  iac-pulumi-aws:hosted_zone_name: demo.autocloud.me
+  iac-pulumi-aws:keyPairName: mbdemo
+  iac-pulumi-aws:lambda_function_code: /lambda/lambda_function.zip
+  iac-pulumi-aws:rds_db_identifier: mb
+  iac-pulumi-aws:rds_db_name: mb
+  iac-pulumi-aws:rds_db_password:
+    secure: v1:CiMYdKMW1T3CIA7B:m8UQDDhA1/N0WaKjMLU0vEuazCJDxarn2SGwcGd7rn6C
+  iac-pulumi-aws:rds_db_username: mb
+  iac-pulumi-aws:rds_instance_endpoint: mb.cx9kgapseooe.us-west-2.rds.amazonaws.com
+  iac-pulumi-aws:ses_sender_email: info@demo.autocloud.me
+  iac-pulumi-aws:sns_full_access_policy_arn: arn:aws:iam::aws:policy/AmazonSNSFullAccess
+  iac-pulumi-aws:sqs_full_access_policy_arn: arn:aws:iam::aws:policy/AmazonSQSFullAccess
+  iac-pulumi-aws:vpcCIDR: 10.20.0.0/24
+  region: us-west-2
+  ssl_certificate_arn: arn:aws:acm:us-west-2:257538979157:certificate/74a610a0-d207-42ad-96fa-1e17e55805fb

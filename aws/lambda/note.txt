@@ -1,0 +1,132 @@
+
+lambda_role = aws.iam.Role(
+    "lambdaRole",
+    assume_role_policy=json.dumps(
+        {
+            "Version": "2012-10-17",
+            "Statement": [
+                {
+                    "Action": "sts:AssumeRole",
+                    "Effect": "Allow",
+                    "Sid": "",
+                    "Principal": {
+                        "Service": "lambda.amazonaws.com",
+                    },
+                }],
+        }),
+)
+
+lambda_policy_document = aws.iam.get_policy_document(
+    statements=[
+        {
+            "actions": [
+                "s3:*",
+                "dynamodb:*",
+                "ses:SendEmail",
+                "ses:SendRawEmail",
+                "storage.objects.*"
+            ],
+            "resources": ["*"],
+        },
+    ]
+)
+
+import requests
+from urllib.parse import urlparse
+import boto3
+import os
+import json
+from datetime import datetime
+from google.oauth2 import service_account
+from google.cloud import storage
+import smtplib
+from email.mime.text import MIMEText
+from botocore.exceptions import ClientError
+
+config = pulumi.Config()
+ses_sender_email = config.require("ses_sender_email")
+ses_smtp_server = config.require("ses_smtp_server")
+ses_smtp_port = config.require("ses_smtp_port")
+ses_smtp_username = config.require("ses_smtp_username")
+ses_smtp_password = config.require("ses_smtp_password")
+googleProject = config.require("googleProject")
+googleBucketName = config.require("googleBucketName")
+googleServiceAccountKey = config.require("googleServiceAccountKey")
+
+service_account_key_json = os.getenv("GOOGLE_SERVICE_ACCOUNT_KEY")
+if service_account_key_json:
+    service_account_info = json.loads(service_account_key_json)
+    credentials = service_account.Credentials.from_service_account_info(
+        service_account_info
+    )
+else:
+    print("GOOGLE_SERVICE_ACCOUNT_KEY environment variable not set or invalid")
+# service_account_info = os.getenv("GOOGLE_SERVICE_ACCOUNT_KEY")
+# credentials = service_account.Credentials.from_service_account_info(service_account_info)
+
+# Lambda Function
+lambda_function = aws.lambda_.Function(
+    "lambda-function",
+    code=pulumi.FileArchive("lambda_function_payload.zip"),
+    handler="lambda_function.lambda_handler",
+    runtime="python3.11",
+    role=lambda_role.arn,
+    environment=aws.lambda_.FunctionEnvironmentArgs(
+        variables={
+            "GOOGLE_SERVICE_ACCOUNT_KEY": googleServiceAccountKey,
+            "GOOGLE_PROJECT": googleProject,
+            "BUCKET_NAME": googleBucketName,
+            "SES_SENDER_EMAIL": ses_sender_email,
+            "SES_SMTP_SERVER": ses_smtp_server,
+            "SES_SMTP_PORT": ses_smtp_port,
+            "SES_SMTP_USERNAME": ses_smtp_username,
+            "SES_SMTP_PASSWORD": ses_smtp_password,
+            "DYNAMODB_TABLE_NAME": dynamodb_table_name
+        },
+    ),
+)
+
+# import in lambda function:
+ses_sender_email = os.getenv("SES_SENDER_EMAIL")
+ses_smtp_server = os.getenv("SES_SMTP_SERVER")
+ses_smtp_port = int(os.getenv("SES_SMTP_PORT", 587))
+ses_smtp_username = os.getenv("SES_SMTP_USERNAME")
+ses_smtp_password = os.getenv("SES_SMTP_PASSWORD")
+dynamodb_table_name = os.getenv("DYNAMODB_TABLE_NAME")
+
+# ses send email with smtp
+def send_email(user_email, subject, body):
+    try:
+        # Create the email message
+        msg = MIMEText(body)
+        msg['Subject'] = subject
+        msg['From'] = ses_sender_email
+        msg['To'] = user_email
+        # Connect to the SES SMTP server
+        server = smtplib.SMTP(ses_smtp_server, ses_smtp_port)
+        server.starttls()  # For TLS encryption
+        # Log in to the SMTP server using SES SMTP credentials
+        server.login(ses_smtp_username, ses_smtp_password)
+        # Send the email
+        server.sendmail(ses_sender_email, [user_email], msg.as_string())
+        # Disconnect from the SMTP server
+        server.quit()
+        return "Email Sent Successfully."
+    except Exception as e:
+        print(f"An error occurred while sending the email: {e}")
+        return "Failed to send email."
+
+
+
+pip install requests
+pip install google-auth google-auth-oauthlib google-auth-httplib2 google-cloud-storage
+
+
+service_account_key_json = os.getenv("GOOGLE_SERVICE_ACCOUNT_KEY")
+if service_account_key_json:
+    service_account_info = json.loads(service_account_key_json)
+    credentials = service_account.Credentials.from_service_account_info(
+        service_account_info
+    )
+else:
+    print("GOOGLE_SERVICE_ACCOUNT_KEY environment variable not set or invalid")

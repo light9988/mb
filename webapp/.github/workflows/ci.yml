@@ -1,0 +1,46 @@
+name: ci
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+   
+    services:
+      mariadb:
+        image: mariadb:latest
+        ports:
+          - 3306:3306
+        env:
+          MARIADB_ROOT_PASSWORD: password
+          MARIADB_DATABASE: db
+          MARIADB_USER: dev
+          MARIADB_PASSWORD: password
+        options: --health-cmd="healthcheck.sh --connect --innodb_initialized" --health-interval=10s --health-timeout=5s --health-retries=3
+  
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: 18.18.0
+
+    - name: Setup Environment Variables
+      run: |
+        echo 'DATABASE_DIALECT=mariadb' >> ./.env
+        echo 'DATABASE_NAME=db' >> ./.env
+        echo 'DATABASE_USERNAME=dev' >> ./.env
+        echo 'DATABASE_PASSWORD=password' >> ./.env
+        echo 'DATABASE_HOSTNAME=localhost' >> ./.env
+         
+    - name: Install dependencies
+      run: npm install
+
+    - name: Run Test
+      run: npm test
+

@@ -1,0 +1,19 @@
+[Unit]
+Description=Webapp
+ConditionPathExists=/opt/webapp/.env
+After=cloud-final.service
+
+[Service]
+Type=simple
+User=csye6225
+Group=csye6225
+WorkingDirectory=/opt/webapp
+ExecStart=/usr/bin/node /opt/webapp/server.js
+Restart=always
+RestartSec=10
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=csye6225
+
+[Install]
+WantedBy=cloud-init.target

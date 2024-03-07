@@ -1,0 +1,220 @@
+rds_db_password: Csye6225password$
+
+# def dev_program():
+# def demo_program():
+
+#     # Exporting VPC
+#     pulumi.export("vpc_id", vpc.id)
+
+# pulumi.export("my-vpc", vpc)
+
+# Create kms key
+kms_key = aws.kms.Key("csye6225key",
+    description="KMS key for csye6225",
+    enable_key_rotation=True, 
+    is_enabled=True,
+    key_usage="ENCRYPT_DECRYPT",
+    deletion_window_in_days=10,
+    tags={
+        "Name": "csye6225key"
+    }
+)
+# Add an alias for the key
+kms_alias = aws.kms.Alias("alias/csye6225key",
+    target_key_id=kms_key.id,
+    name_prefix="alias/"
+)
+
+# # Generate a random password in AWS Secrets Manager
+# random_password = aws.secretsmanager.get_random_password( password_length=20)
+# password_output= pulumi.Output.from_input(random_password).apply(lambda p:p.password)
+
+
+db_key = aws.kms.Key("csye6225key", description="Webapp KMS Key")
+
+db_key = aws.kms.get_key(alias="alias/csye6225key")
+
+manage_master_user_password=True,
+master_user_secret_kms_key_id=kms_key.key_id,
+
+# User data simple version:
+user_data = f"""#!/bin/bash
+touch /opt/testfile.txt
+"""
+
+
+# # Try to get the existing A record, if it exists
+# a_record = aws.route53.Record.get(
+#     "a-record-demo",
+#     id=zone.zone_id,
+#     name=zone_name,
+#     type="A"
+# )
+
+# # If the A record does not exist, create it. Otherwise, update the existing one.
+# if not a_record:
+#     a_record = aws.route53.Record(
+#         "a-record-demo",
+#         zone_id=zone.zone_id,
+#         name=zone_name,
+#         type="A",
+#         ttl=60,
+#         records=[ec2_instance.public_ip]
+#     )
+# else:
+#     # Update the A record with the new EC2 instance's public IP
+#     pulumi.export("a-record-update", a_record.upsert(
+#         records=[ec2_instance.public_ip],
+#         ttl=60
+#     ))
+
+def render_user_data(args):
+    name, username, password, hostname = args
+    env_file = "/opt/webapp/.env"
+    return f"""\
+        #!/bin/bash
+        # set up env file
+        echo 'DATABASE_DIALECT=mariadb' | sudo tee {env_file} 
+        echo 'DATABASE_NAME={name}' | sudo tee -a {env_file} 
+        echo 'DATABASE_USERNAME={username}' | sudo tee -a{env_file} 
+        echo 'DATABASE_PASSWORD={password}' | sudo tee -a {env_file}
+        echo 'DATABASE_HOSTNAME={hostname}' | sudo tee -a {env_file} 
+        # config cloudwatch agent
+        sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl \
+        -a fetch-config \
+        -m ec2 \
+        -c file:/opt/cloudwatch-config.json \
+        -s
+    """
+
+    # subnet_id=public_subnets[0].id,
+    # vpc_security_group_ids=[application_security_group.id],  
+    # block_device_mappings=[
+    #         {
+    #             "device_name": "/dev/sda1",
+    #             "ebs": {
+    #                 "volume_size": 25,
+    #                 "volume_type": "gp2",
+    #                 "delete_on_termination": True,
+    #             },
+    #         },
+    #     ],
+
+    # network_interfaces=[{
+    #     "associate_public_ip_address": "true",
+    #     "delete_on_termination": True,
+    #     "device_index": 0,
+    #     "security_groups": [application_security_group.id],
+    # }],
+
+# # 7. Create EC2 Instance
+# custom_ami_id = pulumi.Config().require("customAmiId")
+# key_pair_name = pulumi.Config().require("keyPairName")
+
+# ec2_instance = aws.ec2.Instance(
+#     "csye6225-webapp",
+#     instance_type="t2.micro",
+#     ami=custom_ami_id,
+#     key_name=key_pair_name,
+#     subnet_id=public_subnets[0].id,
+#     vpc_security_group_ids=[application_security_group.id],
+#     root_block_device=aws.ec2.InstanceRootBlockDeviceArgs(
+#         volume_size=25,
+#         volume_type="gp2",
+#         delete_on_termination=True,
+#     ),
+#     disable_api_termination=False,
+#      tags={
+#         "Name": "ec2-instance-demo",
+#     },
+# )
+# pulumi.export("ec2_instance_id", ec2_instance.id)
+
+# # 11. Create EC2 Instance with userdata
+
+# # 13. Create EC2 Instance with userdata, IAM role
+# custom_ami_id = config.require("customAmiId")
+# key_pair_name = config.require("keyPairName")
+
+# # Define database configuration values
+# database_name = rds_instance.db_name
+# database_username = rds_instance.username
+# database_password = rds_instance.password
+# database_hostname = config.require("rds_instance_endpoint")
+
+# all_info = pulumi.Output.all(database_name, database_username, database_password, database_hostname)
+
+# def render_user_data(args):
+#     name, username, password, hostname = args
+#     env_file = "/opt/webapp/.env"
+#     return f"""#!/bin/bash
+#         # set up env file
+#         sudo echo 'DATABASE_DIALECT=mariadb' > {env_file}
+#         sudo echo 'DATABASE_NAME={name}' >> {env_file}
+#         sudo echo 'DATABASE_USERNAME={username}' >> {env_file}
+#         sudo echo 'DATABASE_PASSWORD={password}' >> {env_file}
+#         sudo echo 'DATABASE_HOSTNAME={hostname}' >> {env_file}
+#         # config cloudwatch agent
+#         sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -c file:/opt/cloudwatch-config.json -s
+#     """
+
+# user_data = all_info.apply(render_user_data)
+
+# ec2_instance = aws.ec2.Instance(
+#     "csye6225-ec2-instance",
+#     instance_type="t2.micro",
+#     ami=custom_ami_id,
+#     key_name=key_pair_name,
+#     subnet_id=public_subnets[0].id,
+#     vpc_security_group_ids=[application_security_group.id],
+#     root_block_device=aws.ec2.InstanceRootBlockDeviceArgs(
+#         volume_size=25,
+#         volume_type="gp2",
+#         delete_on_termination=True,
+#     ),
+#     disable_api_termination=False,
+#      tags={
+#         "Name": "ec2-instance-demo",
+#     },
+#     user_data=user_data,
+#     iam_instance_profile = ec2_instance_profile.name #A7: attahc IAM role
+# )
+# pulumi.export("ec2_instance_id", ec2_instance.id)
+
+# # 14. Create A record that points to the EC2 instance
+# zone_id = config.require("hosted_zone_id")
+# zone_name = config.require("hosted_zone_name")
+
+# zone = aws.route53.get_zone(
+#     name = zone_name,
+#     )
+
+# a_record = aws.route53.Record(
+#     "a-record-demo",
+#     zone_id=zone.zone_id,
+#     name=zone_name,
+#     type="A",
+#     ttl=60,
+#     records=[ec2_instance.public_ip]
+# )
+
+lambda_function_code = aws.lambda_.S3BucketObjectVersionArgs(
+    bucket="myBucket",
+    key="lambda_function_payload.zip",
+    source_code_hash=pulumi.asset.RemoteArchive(
+        "https://raw.githubusercontent.com/csye6225anna/serverless/main/lambda_function_payload.zip"
+    )
+)
+
+iac-pulumi-aws:github_repo_url: https://github.com/csye6225anna/serverless
+iac-pulumi-aws:lambda_zip_file_name: lambda_function_payload.zip
+
+# Define the Lambda function code from the GitHub repository
+# github_repo_url = config.require("github_repo_url")
+# lambda_zip_file_name = config.require("lambda_zip_file_name")
+
+# lambda_function_code = RemoteArchive(
+#     f"{github_repo_url}/blob/main/{lambda_zip_file_name}"
+# )
+
+# lambda_function_code = pulumi.asset.RemoteArchive(remote_archive)
